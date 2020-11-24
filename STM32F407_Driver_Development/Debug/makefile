@@ -46,8 +46,8 @@ STM32F407_Driver_Development.bin \
 all: STM32F407_Driver_Development.elf secondary-outputs
 
 # Tool invocations
-STM32F407_Driver_Development.elf: $(OBJS) $(USER_OBJS) F:\Embedded\ Pojects\Practice_WorkSpace\STM32F407_Driver_Development\STM32F407VGTX_FLASH.ld
-	arm-none-eabi-gcc -o "STM32F407_Driver_Development.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"F:\Embedded Pojects\Practice_WorkSpace\STM32F407_Driver_Development\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F407_Driver_Development.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32F407_Driver_Development.elf: $(OBJS) $(USER_OBJS) F:\Embedded\ Pojects\CortexM4_driver_development\STM32F407_Driver_Development\STM32F407VGTX_FLASH.ld
+	arm-none-eabi-gcc -o "STM32F407_Driver_Development.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"F:\Embedded Pojects\CortexM4_driver_development\STM32F407_Driver_Development\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F407_Driver_Development.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
