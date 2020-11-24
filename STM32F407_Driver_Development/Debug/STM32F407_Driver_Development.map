@@ -26,6 +26,13 @@ Discarded input sections
                 0x0000000000000000       0x1c c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.4.0.202007081208/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/crt0.o
  .group         0x0000000000000000        0xc Src/main.o
  .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
+ .group         0x0000000000000000        0xc Src/main.o
  .text          0x0000000000000000        0x0 Src/main.o
  .data          0x0000000000000000        0x0 Src/main.o
  .bss           0x0000000000000000        0x0 Src/main.o
@@ -560,13 +567,13 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x00000000000000ce       0x1e c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.4.0.202007081208/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7e-m/crtn.o
 OUTPUT(STM32F407_Driver_Development.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000       0x68
- .debug_info    0x0000000000000000       0x46 Src/main.o
- .debug_info    0x0000000000000046       0x22 Startup/startup_stm32f407vgtx.o
+.debug_info     0x0000000000000000       0xa7
+ .debug_info    0x0000000000000000       0x85 Src/main.o
+ .debug_info    0x0000000000000085       0x22 Startup/startup_stm32f407vgtx.o
 
-.debug_abbrev   0x0000000000000000       0x4e
- .debug_abbrev  0x0000000000000000       0x3c Src/main.o
- .debug_abbrev  0x000000000000003c       0x12 Startup/startup_stm32f407vgtx.o
+.debug_abbrev   0x0000000000000000       0x59
+ .debug_abbrev  0x0000000000000000       0x47 Src/main.o
+ .debug_abbrev  0x0000000000000047       0x12 Startup/startup_stm32f407vgtx.o
 
 .debug_aranges  0x0000000000000000       0x48
  .debug_aranges
@@ -578,18 +585,26 @@ OUTPUT(STM32F407_Driver_Development.elf elf32-littlearm)
  .debug_ranges  0x0000000000000000       0x10 Src/main.o
  .debug_ranges  0x0000000000000010       0x20 Startup/startup_stm32f407vgtx.o
 
-.debug_macro    0x0000000000000000      0xaf0
- .debug_macro   0x0000000000000000       0x1a Src/main.o
- .debug_macro   0x000000000000001a      0xa66 Src/main.o
- .debug_macro   0x0000000000000a80       0x70 Src/main.o
+.debug_macro    0x0000000000000000      0xfc0
+ .debug_macro   0x0000000000000000       0x71 Src/main.o
+ .debug_macro   0x0000000000000071      0xa66 Src/main.o
+ .debug_macro   0x0000000000000ad7       0x10 Src/main.o
+ .debug_macro   0x0000000000000ae7       0x22 Src/main.o
+ .debug_macro   0x0000000000000b09       0x8e Src/main.o
+ .debug_macro   0x0000000000000b97       0x51 Src/main.o
+ .debug_macro   0x0000000000000be8       0xef Src/main.o
+ .debug_macro   0x0000000000000cd7       0x6a Src/main.o
+ .debug_macro   0x0000000000000d41      0x1df Src/main.o
+ .debug_macro   0x0000000000000f20       0xa0 Src/main.o
 
-.debug_line     0x0000000000000000      0x12f
- .debug_line    0x0000000000000000       0xab Src/main.o
- .debug_line    0x00000000000000ab       0x84 Startup/startup_stm32f407vgtx.o
+.debug_line     0x0000000000000000      0x46e
+ .debug_line    0x0000000000000000      0x3ea Src/main.o
+ .debug_line    0x00000000000003ea       0x84 Startup/startup_stm32f407vgtx.o
 
-.debug_str      0x0000000000000000     0x2fa7
- .debug_str     0x0000000000000000     0x2f2c Src/main.o
- .debug_str     0x0000000000002f2c       0x7b Startup/startup_stm32f407vgtx.o
+.debug_str      0x0000000000000000     0x3ea3
+ .debug_str     0x0000000000000000     0x3e28 Src/main.o
+                                       0x3f83 (size before relaxing)
+ .debug_str     0x0000000000003e28       0x7b Startup/startup_stm32f407vgtx.o
 
 .comment        0x0000000000000000       0x7b
  .comment       0x0000000000000000       0x7b Src/main.o

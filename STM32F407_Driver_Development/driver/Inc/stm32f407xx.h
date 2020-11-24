@@ -8,6 +8,9 @@
 #ifndef INC_STM32F407XX_H_
 #define INC_STM32F407XX_H_
 
+#define __vo 	volatile
+#include <stdint.h>
+
 /*
  * Base Address of Processor Memories
  */
@@ -43,6 +46,89 @@
  * Reset and Clock Control Base Address
  */
 #define RCC_BASEADDR	(AHB1_BASEADDR + 0x3800)
+
+/****************Peripheral Register Definition****************/
+
+/*
+ * Reset and Clock Control Register Definition
+ */
+typedef struct
+{
+	__vo uint32_t CR;
+	__vo uint32_t PLLCFGR;
+	__vo uint32_t CFGR;
+	__vo uint32_t CIR;
+	__vo uint32_t AHB1RSTR;
+	__vo uint32_t AHB2RSTR;
+	__vo uint32_t AHB3RSTR;
+	 uint32_t Reserved;
+	__vo uint32_t APB1RSTR;
+	__vo uint32_t APB2RSTR;
+	 uint32_t Reserved0[2];
+	__vo uint32_t AHB1ENR;
+	__vo uint32_t AHB2ENR;
+	__vo uint32_t AHB3ENR;
+	 uint32_t Reserved1;
+	__vo uint32_t APB1ENR;
+	__vo uint32_t APB2ENR;
+	 uint32_t Reserved2[2];
+	__vo uint32_t AHB1LPENR;
+	__vo uint32_t AHB2LPENR;
+	__vo uint32_t AHB3LPENR;
+	 uint32_t Reserved3;
+	__vo uint32_t APB1LPENR;
+	__vo uint32_t APB2LPENR;
+	 uint32_t ReservED4[2];
+	__vo uint32_t BDCR;
+	__vo uint32_t CSR;
+	 uint32_t Reserveed5[2];
+	__vo uint32_t SSCGR;
+	__vo uint32_t PLLI2SCFGR;
+}RCC_RegDef_t;
+
+/*
+ * General Purpose Input and Output Register Definition
+ */
+
+typedef struct
+{
+	__vo uint32_t MODER;
+	__vo uint32_t OTYPER;
+	__vo uint32_t OSPEEDR;
+	__vo uint32_t PUPDR;
+	__vo uint32_t IDR;
+	__vo uint32_t ODR;
+	__vo uint32_t BSRR;
+	__vo uint32_t LCKR;
+	__vo uint32_t AFR[2];
+
+}GPIO_RegDef_t;
+
+/*************Base Address Type Casted to Peripheral Register Definition**********/
+
+/*
+ * Reset and Clock Control type casted Base addr
+ */
+
+#define RCC			(*RCC_RegDef_t)RCC_BASEADDR
+
+/*
+ * GPIO Register Definition type casted to Base address
+ */
+#define GPIOA		(*GPIO_RegDef_t)GPIOA_BASEADDR
+#define GPIOB		(*GPIO_RegDef_t)GPIOB_BASEADDR
+#define GPIOC		(*GPIO_RegDef_t)GPIOC_BASEADDR
+#define GPIOD		(*GPIO_RegDef_t)GPIOD_BASEADDR
+#define GPIOE		(*GPIO_RegDef_t)GPIOE_BASEADDR
+#define GPIOF		(*GPIO_RegDef_t)GPIOF_BASEADDR
+#define GPIOG		(*GPIO_RegDef_t)GPIOG_BASEADDR
+#define GPIOH		(*GPIO_RegDef_t)GPIOH_BASEADDR
+
+
+
+
+
+
 
 
 

@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 0000002a  00000000  00000000  000102ac  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00000068  00000000  00000000  000102d6  2**0
+ 12 .debug_info   000000a7  00000000  00000000  000102d6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 0000004e  00000000  00000000  0001033e  2**0
+ 13 .debug_abbrev 00000059  00000000  00000000  0001037d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00000048  00000000  00000000  00010390  2**3
+ 14 .debug_aranges 00000048  00000000  00000000  000103d8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000030  00000000  00000000  000103d8  2**3
+ 15 .debug_ranges 00000030  00000000  00000000  00010420  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  00000af0  00000000  00000000  00010408  2**0
+ 16 .debug_macro  00000fc0  00000000  00000000  00010450  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000012f  00000000  00000000  00010ef8  2**0
+ 17 .debug_line   0000046e  00000000  00000000  00011410  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00002fa7  00000000  00000000  00011027  2**0
+ 18 .debug_str    00003ea3  00000000  00000000  0001187e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00013fce  2**0
+ 19 .comment      0000007b  00000000  00000000  00015721  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000054  00000000  00000000  0001404c  2**2
+ 20 .debug_frame  00000054  00000000  00000000  0001579c  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -79,8 +79,8 @@ Disassembly of section .text:
 080001e8 <main>:
 
 
-
 #include "stm32f407xx.h"
+
 int main(void)
 {
  80001e8:	b480      	push	{r7}
