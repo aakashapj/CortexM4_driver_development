@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  15 .debug_ranges 00000030  00000000  00000000  00010428  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  00001068  00000000  00000000  00010458  2**0
+ 16 .debug_macro  0000112a  00000000  00000000  00010458  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000046a  00000000  00000000  000114c0  2**0
+ 17 .debug_line   00000487  00000000  00000000  00011582  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00004405  00000000  00000000  0001192a  2**0
+ 18 .debug_str    000045df  00000000  00000000  00011a09  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00015d2f  2**0
+ 19 .comment      0000007b  00000000  00000000  00015fe8  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000005c  00000000  00000000  00015dac  2**2
+ 20 .debug_frame  0000005c  00000000  00000000  00016064  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -86,7 +86,7 @@ int main(void)
  80001e8:	b480      	push	{r7}
  80001ea:	af00      	add	r7, sp, #0
  80001ec:	2300      	movs	r3, #0
-    /* Loop forever */
+
 
 
 }
