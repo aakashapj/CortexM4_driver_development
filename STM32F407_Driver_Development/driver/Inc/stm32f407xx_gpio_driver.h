@@ -17,6 +17,7 @@ typedef struct
 	uint8_t PinOType;
 	uint8_t PinOSpeed;
 	uint8_t PinPuPd;
+	uint8_t PinALTFn;
 
 }GPIO_PinConfig_t;
 
@@ -35,6 +36,9 @@ typedef struct
 #define PIN_MODE_OUT		1
 #define PIN_MODE_ALT	 	2
 #define PIN_MODE_ANALOG 	3
+#define PIN_MODE_RT			4
+#define PIN_MODE_FT			5
+#define PIN_MODE_RFT		6
 
 #define PIN_OTYPE_PP		0
 #define PIN_OTYPE_OD		1
@@ -66,13 +70,33 @@ typedef struct
 #define PIN_ALTFN_15		15
 
 /*
+ * GPIO Pin Number Macros
+ */
+#define GPIO_PIN_NO_0           0
+#define GPIO_PIN_NO_1           1
+#define GPIO_PIN_NO_2           2
+#define GPIO_PIN_NO_3           3
+#define GPIO_PIN_NO_4           4
+#define GPIO_PIN_NO_5           5
+#define GPIO_PIN_NO_6           6
+#define GPIO_PIN_NO_7           7
+#define GPIO_PIN_NO_8           8
+#define GPIO_PIN_NO_9           9
+#define GPIO_PIN_NO_10          10
+#define GPIO_PIN_NO_11          11
+#define GPIO_PIN_NO_12          12
+#define GPIO_PIN_NO_13          13
+#define GPIO_PIN_NO_14          14
+#define GPIO_PIN_NO_15          15
+
+/*
  * Function Prototype of Driver file
  */
 void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
 void GPIO_Init(GPIO_Handle_t pGPIOHandle);
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
-void GPIO_ReadFromPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
-void GPIO_ReadFromPort(GPIO_RegDef_t *pGPIOx);
+uint8_t GPIO_ReadFromPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
+uint16_t GPIO_ReadFromPort(GPIO_RegDef_t *pGPIOx);
 void GPIO_WriteToPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t EnorDi);
 void GPIO_WriteToPort(GPIO_RegDef_t *pGPIOx, uint16_t value);
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);

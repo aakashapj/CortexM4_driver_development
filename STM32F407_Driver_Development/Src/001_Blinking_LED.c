@@ -17,13 +17,33 @@
  ******************************************************************************
  */
 
-
+void delay(void)
+{
+	for(int i=0; i<= 300000; i++);
+}
 
 #include "stm32f407xx.h"
 
 int main(void)
 {
 
+	GPIO_Handle_t gpioled;
+
+	gpioled.pGPIOx = GPIOD;
+	gpioled.PinConfig.pinNumber = GPIO_PIN_NO_13;
+	gpioled.PinConfig.PinMode = PIN_MODE_OUT;
+	gpioled.PinConfig.PinOType = PIN_OTYPE_PP;
+	gpioled.PinConfig.PinOSpeed = PIN_OSPEED_HIGH;
+	gpioled.PinConfig.PinPuPd = PIN_PUPD_NONE;
+
+	GPIO_PeriClkControl(GPIOD, ENABLE);
+	GPIO_Init(gpioled);
+
+	while(1)
+	{
+	GPIO_TogglePin(GPIOD, GPIO_PIN_NO_13);
+	delay();
+	}
 
 
 }

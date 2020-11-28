@@ -40,7 +40,7 @@
 #define GPIOE_BASEADDR	(AHB1_BASEADDR + 0x1000)
 #define GPIOF_BASEADDR	(AHB1_BASEADDR + 0x1400)
 #define GPIOG_BASEADDR	(AHB1_BASEADDR + 0x1800)
-#define GPIOI_BASEADDR	(AHB1_BASEADDR + 0x1C00)
+#define GPIOH_BASEADDR	(AHB1_BASEADDR + 0x1C00)
 
 /*
  * Reset and Clock Control Base Address
@@ -167,6 +167,14 @@ typedef struct
 #define GPIOF_REG_RST()		do{RCC->AHB1RSTR |= (1 << 5); RCC->AHB1RSTR &= ~(1 << 5);}while(0)
 #define GPIOG_REG_RST()		do{RCC->AHB1RSTR |= (1 << 6); RCC->AHB1RSTR &= ~(1 << 6);}while(0)
 #define GPIOH_REG_RST()		do{RCC->AHB1RSTR |= (1 << 7); RCC->AHB1RSTR &= ~(1 << 7);}while(0)
+
+/*
+ * Some Other Macros
+ */
+#define ENABLE 		1
+#define DISABLE 	0
+#define SET			ENABLE
+#define RESET		DISABLE
 
 
 
