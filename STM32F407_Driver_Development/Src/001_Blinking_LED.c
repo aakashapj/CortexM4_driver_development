@@ -17,9 +17,9 @@
  ******************************************************************************
  */
 
-void delay(void)
+void delay(int a)
 {
-	for(int i=0; i<= 300000; i++);
+	for(int i=0; i<= (571700*a); i++);
 }
 
 #include "stm32f407xx.h"
@@ -42,7 +42,7 @@ int main(void)
 	while(1)
 	{
 	GPIO_TogglePin(GPIOD, GPIO_PIN_NO_13);
-	delay();
+	delay(2);
 	}
 
 

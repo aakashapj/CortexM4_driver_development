@@ -28,6 +28,7 @@
 #define AHB2_BASEADDR	0x50000000
 #define AHB3_BASEADDR 	0xA0000000
 
+
 /******************Peripheral Base Address******************/
 
 /*
@@ -46,6 +47,16 @@
  * Reset and Clock Control Base Address
  */
 #define RCC_BASEADDR	(AHB1_BASEADDR + 0x3800)
+
+/*
+ * External Interrupt Base Address
+ */
+#define EXTI_BASEADDR	(APB2_BASEADDR + 0x3C00)
+
+/*
+ * System Configuration Base Address
+ */
+#define SYSCFG_BASEADDR (APB2_BASEADDR + 0x3800)
 
 /****************Peripheral Register Definition****************/
 
@@ -103,6 +114,35 @@ typedef struct
 	__vo uint32_t AFR[2];
 
 }GPIO_RegDef_t;
+
+/*
+ * External Interrupt Register Definition
+ */
+
+typedef struct
+{
+	__vo uint32_t IMR;
+	__vo uint32_t EMR;
+	__vo uint32_t RTSR;
+	__vo uint32_t FTSR;
+	__vo uint32_t SWIER;
+	__vo uint32_t PR;
+}EXTI_RegDef_t;
+
+/*
+ * System Configuration Register Definition
+ */
+typedef struct
+{
+	__vo uint32_t MEMRMP;
+	__vo uint32_t PMC;
+	__vo uint32_t EXTICR1;
+	__vo uint32_t EXTICR2;
+	__vo uint32_t EXTICR3;
+	__vo uint32_t EXTICR4;
+	__vo uint32_t Reserve[2];
+	__vo uint32_t CMPCR;
+}SYSCFG_RegDef_t;
 
 /*************Base Address Type Casted to Peripheral Register Definition**********/
 
