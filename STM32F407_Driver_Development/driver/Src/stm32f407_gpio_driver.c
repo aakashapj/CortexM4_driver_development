@@ -81,10 +81,49 @@ void GPIO_Init(GPIO_Handle_t pGPIOHandle)
 	{
 		pGPIOHandle.pGPIOx->MODER &= ~(0x03 << (pin * 2));
 		pGPIOHandle.pGPIOx->MODER |= pGPIOHandle.PinConfig.PinMode << (pin * 2);
-	}else
+	}else if(pGPIOHandle.PinConfig.PinMode > PIN_MODE_ANALOG)
 	{
-		//develop Later
+	//Configuring Edge Selection of Interrupt
+		if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_RT)
+		{
+			//Clearing Rising Trigger Bit
+			EXTI->RTSR &= ~(1 << pin);
+			//Setting Rising Trigger Bit
+			EXTI->RTSR |= (1 << pin);
+		}else if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_FT)
+		{
+			//Clearing Rising Trigger Bit
+			EXTI->FTSR &= ~(1 << pin);
+			//Setting Rising Trigger Bit
+			EXTI->FTSR |= (1 << pin);
+		}else if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_RFT)
+		{
+			//Clearing Rising Trigger Bit
+			EXTI->FTSR &= ~(1 << pin);
+			//Setting Rising Trigger Bit
+			EXTI->FTSR |= (1 << pin);
+
+			//Clearing Rising Trigger Bit
+			EXTI->RTSR &= ~(1 << pin);
+			//Setting Rising Trigger Bit
+			EXTI->RTSR |= (1 << pin);
+		}
+
+	//System Configuration Register Configuration
+		uint8_t temp1 = (pin / 4);
+		uint8_t temp2 = ((pin % 4) * 4);
+
+		//System Configuration Clock Enable
+		SYSCFG_PCLK_EN();
+
+		SYSCFG->EXTICR[temp1] &= ~(0x0f << temp2);
+		SYSCFG->EXTICR[temp1] |= (GPIO_TO_PORTCODE(pGPIOHandle.pGPIOx) << temp2);
+
+	//Enabling Interrupt
+		EXTI->IMR |= (1 << pin);
 	}
+
+
 
 	//2. Pin Output Selection
 	pGPIOHandle.pGPIOx->OTYPER |= pGPIOHandle.PinConfig.PinOType << pin;

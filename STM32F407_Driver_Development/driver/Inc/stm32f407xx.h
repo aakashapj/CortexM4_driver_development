@@ -89,10 +89,10 @@ typedef struct
 	 uint32_t Reserved3;
 	__vo uint32_t APB1LPENR;
 	__vo uint32_t APB2LPENR;
-	 uint32_t ReservED4[2];
+	 uint32_t Reserved4[2];
 	__vo uint32_t BDCR;
 	__vo uint32_t CSR;
-	 uint32_t Reserveed5[2];
+	 uint32_t Reserved5[2];
 	__vo uint32_t SSCGR;
 	__vo uint32_t PLLI2SCFGR;
 }RCC_RegDef_t;
@@ -136,11 +136,8 @@ typedef struct
 {
 	__vo uint32_t MEMRMP;
 	__vo uint32_t PMC;
-	__vo uint32_t EXTICR1;
-	__vo uint32_t EXTICR2;
-	__vo uint32_t EXTICR3;
-	__vo uint32_t EXTICR4;
-	__vo uint32_t Reserve[2];
+	__vo uint32_t EXTICR[4];
+	__vo uint32_t Reserved[2];
 	__vo uint32_t CMPCR;
 }SYSCFG_RegDef_t;
 
@@ -164,6 +161,15 @@ typedef struct
 #define GPIOG		((GPIO_RegDef_t*)GPIOG_BASEADDR)
 #define GPIOH		((GPIO_RegDef_t*)GPIOH_BASEADDR)
 
+/*
+ * EXTI Register Definition type casted to Base address
+ */
+#define EXTI		((EXTI_RegDef_t*)EXTI_BASEADDR)
+
+/*
+ * System Configuration Register Definition type casted to Base address
+ */
+#define SYSCFG 		((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
 
 /*
  * Peripheral Clock Enable Macros
@@ -182,6 +188,11 @@ typedef struct
 #define GPIOH_PCLK_EN()  		(RCC->AHB1ENR |= (1 << 7))
 
 /*
+ * System Configuration Clock Enable
+ */
+#define SYSCFG_PCLK_EN()		(RCC->APB2ENR |= (1 << 14))
+
+/*
  * Peripheral Clock Disable Macros
  */
 /*
@@ -195,6 +206,11 @@ typedef struct
 #define GPIOF_PCLK_DI()  		(RCC->AHB1ENR &= ~(1 << 5))
 #define GPIOG_PCLK_DI()  		(RCC->AHB1ENR &= ~(1 << 6))
 #define GPIOH_PCLK_DI()  		(RCC->AHB1ENR &= ~(1 << 7))
+
+/*
+ * System Configuration Clock Enable
+ */
+#define SYSCFG_PCLK_DI()		(RCC->APB2ENR &= ~(1 << 14))
 
 /*
  * Peripheral Reset

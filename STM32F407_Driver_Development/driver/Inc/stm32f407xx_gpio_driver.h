@@ -90,6 +90,17 @@ typedef struct
 #define GPIO_PIN_NO_15          15
 
 /*
+ * Port to GPIO Code
+ */
+#define GPIO_TO_PORTCODE(X) 	((X == GPIOA) ? 0 : \
+								 (X == GPIOB) ? 1 : \
+								 (X == GPIOC) ? 2 : \
+								 (X == GPIOD) ? 3 : \
+								 (X == GPIOE) ? 4 : \
+								 (X == GPIOF) ? 5 : \
+								 (X == GPIOG) ? 6 : 7)
+
+/*
  * Function Prototype of Driver file
  */
 void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
