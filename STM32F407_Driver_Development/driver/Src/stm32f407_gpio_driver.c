@@ -200,3 +200,46 @@ void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
 	pGPIOx->ODR ^= (1 << PinNumber);
 }
+
+/*
+ * Interrupt Request Configuration
+ */
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		if(IRQNumber >= 0 && IRQNumber <32)
+		{
+			*NVIC_ISER |= (1 << IRQNumber);
+		}else if(IRQNumber >= 32 && IRQNumber < 64)
+		{
+			*(NVIC_ISER + 1) |= (1 << (IRQNumber%32));
+		}else if(IRQNumber >= 64 && IRQNumber < 96)
+		{
+			*(NVIC_ISER + 2) |= (1 << (IRQNumber%64));
+		}
+	}else
+	{
+		if(IRQNumber >= 0 && IRQNumber <32)
+		{
+			*NVIC_ICER |= (1 << IRQNumber);
+		}else if(IRQNumber >= 32 && IRQNumber < 64)
+		{
+			*(NVIC_ICER + 1) |= (1 << (IRQNumber%32));
+		}else if(IRQNumber >= 64 && IRQNumber < 96)
+		{
+			*(NVIC_ICER + 2) |= (1 << (IRQNumber%64));
+		}
+	}
+}
+
+/*
+ * IRQ Handling
+ */
+void GPIO_IRQHandling(uint8_t PinNumber)
+{
+	if(EXTI->PR & (1 << PinNumber))
+	{
+		EXTI->PR |= (1 << PinNumber);
+	}
+}

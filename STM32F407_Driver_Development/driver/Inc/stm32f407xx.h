@@ -11,6 +11,7 @@
 #define __vo 	volatile
 #include <stdint.h>
 
+/*********************Base Address Macros***************************/
 /*
  * Base Address of Processor Memories
  */
@@ -27,6 +28,13 @@
 #define AHB1_BASEADDR	0x40020000
 #define AHB2_BASEADDR	0x50000000
 #define AHB3_BASEADDR 	0xA0000000
+
+/*
+ * NVIC Base Address
+ */
+#define NVIC_ISER		(uint32_t*)0xE000E100
+#define NVIC_ICER		(uint32_t*)0XE000E180
+
 
 
 /******************Peripheral Base Address******************/
@@ -223,6 +231,17 @@ typedef struct
 #define GPIOF_REG_RST()		do{RCC->AHB1RSTR |= (1 << 5); RCC->AHB1RSTR &= ~(1 << 5);}while(0)
 #define GPIOG_REG_RST()		do{RCC->AHB1RSTR |= (1 << 6); RCC->AHB1RSTR &= ~(1 << 6);}while(0)
 #define GPIOH_REG_RST()		do{RCC->AHB1RSTR |= (1 << 7); RCC->AHB1RSTR &= ~(1 << 7);}while(0)
+
+/*
+ * Interrupt Position Macros
+ */
+#define IRQ_LINE_EXTI0		6
+#define IRQ_LINE_EXTI1		7
+#define IRQ_LINE_EXTI2		8
+#define IRQ_LINE_EXTI3		9
+#define IRQ_LINE_EXTI4		10
+
+
 
 /*
  * Some Other Macros

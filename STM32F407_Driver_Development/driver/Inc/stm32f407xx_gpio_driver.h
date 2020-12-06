@@ -104,12 +104,20 @@ typedef struct
  * Function Prototype of Driver file
  */
 void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
+
+
 void GPIO_Init(GPIO_Handle_t pGPIOHandle);
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
+
+
 uint8_t GPIO_ReadFromPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
 uint16_t GPIO_ReadFromPort(GPIO_RegDef_t *pGPIOx);
 void GPIO_WriteToPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t EnorDi);
 void GPIO_WriteToPort(GPIO_RegDef_t *pGPIOx, uint16_t value);
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
+
+
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
+void GPIO_IRQHandling(uint8_t PinNumber);
 
 #endif /* INC_STM32F407XX_GPIO_DRIVER_H_ */
