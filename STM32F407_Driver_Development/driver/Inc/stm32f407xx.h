@@ -66,6 +66,14 @@
  */
 #define SYSCFG_BASEADDR (APB2_BASEADDR + 0x3800)
 
+/*
+ * Serial Peripheral Interface Base Address
+ */
+#define SPI1_BASEADDR	(APB2_BASEADDR + 0x3000)
+#define SPI2_BASEADDR	(APB1_BASEADDR + 0x3800)
+#define SPI3_BASEADDR	(APB1_BASEADDR + 0x3C00)
+#define SPI4_BASEADDR	(APB2_BASEADDR + 0x3400)
+
 /****************Peripheral Register Definition****************/
 
 /*
@@ -149,6 +157,22 @@ typedef struct
 	__vo uint32_t CMPCR;
 }SYSCFG_RegDef_t;
 
+/*
+ * Serial Peripheral Interface Register Definition
+ */
+typedef struct
+{
+	__vo uint32_t CR1;
+	__vo uint32_t CR2;
+	__vo uint32_t SR;
+	__vo uint32_t DR;
+	__vo uint32_t CRCPR;
+	__vo uint32_t RXCRCR;
+	__vo uint32_t TXCRCR;
+	__vo uint32_t I2SCFGR;
+	__vo uint32_t I2SPR;
+}SPI_RegDef_t;
+
 /*************Base Address Type Casted to Peripheral Register Definition**********/
 
 /*
@@ -178,6 +202,13 @@ typedef struct
  * System Configuration Register Definition type casted to Base address
  */
 #define SYSCFG 		((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
+
+/*
+ * Serial Peripheral Interface Register Definition type Casted to Base Address
+ */
+#define SPI1		((SPI_RegDef_t*)SPI1_BASEADDR)
+#define SPI2		((SPI_RegDef_t*)SPI2_BASEADDR)
+#define SPI3		((SPI_RegDef_t*)SPI3_BASEADDR)
 
 /*
  * Peripheral Clock Enable Macros
