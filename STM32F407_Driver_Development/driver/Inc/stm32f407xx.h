@@ -210,10 +210,8 @@ typedef struct
 #define SPI2		((SPI_RegDef_t*)SPI2_BASEADDR)
 #define SPI3		((SPI_RegDef_t*)SPI3_BASEADDR)
 
-/*
- * Peripheral Clock Enable Macros
- */
 
+/************* Peripheral Clock Enable Macros *************/
 /*
  * GPIO Enable Macros
  */
@@ -232,8 +230,14 @@ typedef struct
 #define SYSCFG_PCLK_EN()		(RCC->APB2ENR |= (1 << 14))
 
 /*
- * Peripheral Clock Disable Macros
+ * SPI Clock Enable
  */
+#define SPI1_PCLK_EN()			(RCC->APB2ENR |= (1 << 12))
+#define SPI2_PCLK_EN()			(RCC->APB1ENR |= (1 << 14))
+#define SPI3_PCLK_EN()			(RCC->APB1ENR |= (1 << 15))
+
+
+/************* Peripheral Clock Disable Macros*************/
 /*
  * GPIO Disable Macros
  */
@@ -251,6 +255,15 @@ typedef struct
  */
 #define SYSCFG_PCLK_DI()		(RCC->APB2ENR &= ~(1 << 14))
 
+/*
+ * SPI Clock Enable
+ */
+#define SPI1_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 12))
+#define SPI2_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 14))
+#define SPI3_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 15))
+
+
+/*********************Peripheral Reset Macros*********************/
 /*
  * Peripheral Reset
  */
