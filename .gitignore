@@ -1,6 +1,6 @@
 .metadata
-STM32F407_Driver_Development\Debug\*
-STM32F407_Driver_Development\.settings\*
+STM32F407_Driver_Development/Debug/*
+STM32F407_Driver_Development/.settings/*
 *.bin
 *.elf
 *.list
@@ -12,3 +12,4 @@ STM32F407_Driver_Development\.settings\*
 *.xml
 RemoteSystemsTempFiles
 Debug
+.settings
