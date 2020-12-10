@@ -24,7 +24,7 @@ typedef struct
 typedef struct
 {
 	SPI_Config_t SPIConfig;
-	SPI_RegDef_t SPIx;
+	SPI_RegDef_t *pSPIx;
 }SPI_Handle_t;
 
 /****************** Serial Peripheral Interface User Macros ************/
@@ -99,5 +99,7 @@ void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
+uint8_t SPI_FlagStatus(SPI_RegDef_t *pSPIx, uint8_t Flagname);
 
 #endif /* INC_STM32F407XX_SPI_DRIVER_H_ */
