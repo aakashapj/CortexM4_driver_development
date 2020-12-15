@@ -83,6 +83,9 @@ void SPI_PeriClkControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
+	//SPI clock Enable
+	SPI_PeriClkControl(pSPIHandle->pSPIx, ENABLE);
+
 	uint32_t tempreg = 0;
 
 	//1. Device Mode Configuration

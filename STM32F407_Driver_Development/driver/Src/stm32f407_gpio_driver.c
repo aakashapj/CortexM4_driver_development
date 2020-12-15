@@ -75,6 +75,9 @@ void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
  */
 void GPIO_Init(GPIO_Handle_t pGPIOHandle)
 {
+	//Clock Enable
+	GPIO_PeriClkControl(pGPIOHandle.pGPIOx, ENABLE);
+
 	uint8_t pin = pGPIOHandle.PinConfig.pinNumber;
 	//1. Mode Selection
 	if(pGPIOHandle.PinConfig.PinMode <= PIN_MODE_ANALOG)
