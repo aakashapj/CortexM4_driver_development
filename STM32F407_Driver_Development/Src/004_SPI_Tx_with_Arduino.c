@@ -29,7 +29,7 @@ void GPIO_Button(void)
 void SPI_GPIOInit(void)
 {
 	GPIO_Handle_t GPIOHandle;
-	GPIOHandle.pGPIOx 				= GPIOA;
+	GPIOHandle.pGPIOx 				= GPIOB;
 	GPIOHandle.PinConfig.PinMode 	= PIN_MODE_ALT;
 	GPIOHandle.PinConfig.PinALTFn 	= PIN_ALTFN_5;
 	GPIOHandle.PinConfig.PinOSpeed	= PIN_OSPEED_HIGH;
@@ -37,28 +37,28 @@ void SPI_GPIOInit(void)
 	GPIOHandle.PinConfig.PinPuPd	= PIN_PUPD_PU;
 
 	//NSS Slave Select Pin
-	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_4;
+	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_12;
 	GPIO_Init(GPIOHandle);
 
 	//SCK Serial Clock
-	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_5;
+	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_13;
 	GPIO_Init(GPIOHandle);
 
 	//MISO Master In Slave Out
-	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_6;
+	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_14;
 	GPIO_Init(GPIOHandle);
 
 	//MOSI Master Out Slave In
-	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_7;
+	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_15;
 	GPIO_Init(GPIOHandle);
 
 }
 
-void SPI1_Init(void)
+void SPI2_Init(void)
 {
 
 
-	SPIHandle.pSPIx 						= SPI1;
+	SPIHandle.pSPIx 						= SPI2;
 	SPIHandle.SPIConfig.SPIDeviceMode	 	= SPI_MODE_MASTER;
 	SPIHandle.SPIConfig.SPIDFF 				= SPI_DFF_8BIT;
 	SPIHandle.SPIConfig.SPIBusConfig 		= SPI_BUS_FULL_DUPLEX;
@@ -70,32 +70,36 @@ void SPI1_Init(void)
 	SPI_Init(&SPIHandle);
 }
 
+
+
 char user[] = "Hello world";
+
 
 int main()
 {
+
 
 	SPI_GPIOInit();
 
 	GPIO_Button();
 
-	SPI1_Init();
+	SPI2_Init();
 
-	SPI_SSOEControl(SPI1, ENABLE);
+	SPI_SSOEControl(SPI2, ENABLE);
 
 	while(1)
 	{
 	while(!GPIO_ReadFromPin(GPIOA, GPIO_PIN_NO_0));
 	delay();
 
-	SPI_PeriControl(SPI1, ENABLE);
+	SPI_PeriControl(SPI2, ENABLE);
 
-	uint8_t datalen = strlen(user);
+	uint8_t datalen = 1;
 	SPI_SendData(&SPIHandle, &datalen, 1);
 
 	SPI_SendData(&SPIHandle, (uint8_t*)user, strlen(user));
 
-	SPI_PeriControl(SPI1, DISABLE);
+	SPI_PeriControl(SPI2, DISABLE);
 	}
 
 }
