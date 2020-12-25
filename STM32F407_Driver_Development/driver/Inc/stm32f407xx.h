@@ -11,6 +11,9 @@
 #define __vo 	volatile
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
+
+
 
 /*********************Base Address Macros***************************/
 /*
