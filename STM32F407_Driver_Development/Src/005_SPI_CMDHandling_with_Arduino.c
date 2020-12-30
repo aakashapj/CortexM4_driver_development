@@ -139,9 +139,54 @@ int main()
 
 	printf("SPI Peripheral Enable\n");
 
+	printf("---------------------------------------\n");
 	//LED Control
 
 	commandcode = COMMAND_LED_CTRL;
+	uint8_t Led_pin = LED_PIN;
+	uint8_t Led_st = LED_ON;
+	//Sending Command
+	SPI_SendData(&SPIHandle,&commandcode, 1);
+	SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+
+	//Getting ACK Back
+	SPI_SendData(&SPIHandle, &DummySend, 1);
+	SPI_ReceiveData(&SPIHandle, &ACKORNACK, 1);
+
+
+	if(ACKORNACK == ACK)
+	{
+		printf("Acknowledged LED CONTROL\n");
+				//Sending Pin Number
+		SPI_SendData(&SPIHandle, &Led_pin, 1);
+		SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+			if(Led_st == LED_ON)
+			{
+				//Sending Value
+				SPI_SendData(&SPIHandle, &Led_st, 1);
+				SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+
+				printf("Command executed: LED ON\n");
+			}else if(Led_st == LED_OFF)
+			{
+				//Sending Value
+				SPI_SendData(&SPIHandle, &Led_st, 1);
+				SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+
+				printf("Command executed: LED OFF\n");
+			}
+
+	}
+
+	printf("---------------------------------------\n");
+
+	//Analog Sensor Data
+
+	while(!GPIO_ReadFromPin(GPIOA, GPIO_PIN_NO_0));
+	delay();
+
+	commandcode = COMMAND_SENSOR_READ;
+	uint8_t Ana_pin = ANALOG_PIN1;
 	//Sending Command
 	SPI_SendData(&SPIHandle,&commandcode, 1);
 	SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
@@ -152,17 +197,91 @@ int main()
 
 	if(ACKORNACK == ACK)
 	{
-		printf("Acknowledged");
-		//Sending Pin Number
-		SPI_SendData(&SPIHandle, (uint8_t*)LED_PIN, 1);
+		printf("Acknowledged SENSOR CONTROL\n");
+		uint8_t AnaSen_Read;
+		//Sending Command
+		SPI_SendData(&SPIHandle, &Ana_pin, 1);
 		SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
 
-		//Sending Value
-		SPI_SendData(&SPIHandle, (uint8_t*)LED_ON, 1);
-		SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+		delay();
 
-		printf("Command executed: LED ON");
+		//Getting Response
+		SPI_SendData(&SPIHandle, &DummySend, 1);
+		SPI_ReceiveData(&SPIHandle, &AnaSen_Read, 1);
+
+		printf("Sensor Value: %d\n",AnaSen_Read);
+
 	}
+
+	printf("---------------------------------------\n");
+
+	//Command Print
+
+	while(!GPIO_ReadFromPin(GPIOA, GPIO_PIN_NO_0));
+	delay();
+
+	commandcode = COMMAND_PRINT;
+	uint8_t data[] = "Hello World";
+	uint8_t len = strlen((char*)data);
+
+	//Command Code Send
+	SPI_SendData(&SPIHandle, &commandcode, 1);
+	SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+
+	//Ack Receiving
+	SPI_SendData(&SPIHandle, &DummySend, 1);
+	SPI_ReceiveData(&SPIHandle, &ACKORNACK, 1);
+
+	if(ACKORNACK == ACK)
+	{
+		printf("Acknowledged COMMAND PRINT\n");
+
+		//Sending Length of data String
+		SPI_SendData(&SPIHandle, &len, 1);
+
+		//Sending String
+		SPI_SendData(&SPIHandle, data, len);
+	}
+
+	printf("---------------------------------------\n");
+
+	//Reading Board Id
+
+	while(!GPIO_ReadFromPin(GPIOA, GPIO_PIN_NO_0));
+	delay();
+
+	commandcode = COMMAND_ID_READ;
+	uint8_t BoardID[15];
+	int i;
+	uint8_t Id_Len;
+
+	//Sending Command Code
+	SPI_SendData(&SPIHandle, &commandcode, 1);
+	SPI_ReceiveData(&SPIHandle, &DummyRead, 1);
+
+	//Receiving Ack Byte
+	SPI_SendData(&SPIHandle, &DummySend, 1);
+	SPI_ReceiveData(&SPIHandle, &ACKORNACK, 1);
+
+
+	if(ACKORNACK == ACK)
+	{
+		printf("Acknowledged COMMAND BOARD ID\n");
+
+		SPI_SendData(&SPIHandle, &DummySend, 1);
+		SPI_ReceiveData(&SPIHandle, &Id_Len, 1);
+
+		for(i=0; i< Id_Len; i++)
+		{
+			SPI_SendData(&SPIHandle, &DummySend, 1);
+			SPI_ReceiveData(&SPIHandle, &BoardID[i], 1);
+		}
+		BoardID[Id_Len+1] = '\0';
+
+		printf("Board Id: %s \n", BoardID);
+	}
+
+	printf("---------------------------------------\n");
 
 
 	SPI_PeriControl(SPI2, DISABLE);
