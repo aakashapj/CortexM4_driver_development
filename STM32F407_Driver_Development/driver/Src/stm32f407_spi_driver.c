@@ -7,6 +7,9 @@
 
 #include "stm32f407xx.h"
 
+static void spi_txe_interrupt_handler(SPI_Handle_t *pSPIHandle);
+static void spi_rxe_interrupt_handler(SPI_Handle_t *pSPIHandle);
+static void spi_ovr_interrupt_handler(SPI_Handle_t *pSPIHandle);
 
 /*
  * SPI Flag Status Function
@@ -176,4 +179,95 @@ void SPI_ReceiveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len)
 			 Len--;
 		}
 	}
+}
+
+void SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len)
+{
+	//Checking Status of SPI Communication
+	uint8_t status = pSPIHandle->SPI_Status_g;
+
+	if(status != SPI_BUSY_TX)
+	{
+		//Status SPI Busy in Transmission
+		pSPIHandle->SPI_Status_g = SPI_BUSY_TX;
+
+		//Sending Variable Values in Global Variable
+		pSPIHandle->pTxBuffer_g = pTxBuffer;
+		pSPIHandle->TxLen_g = Len;
+
+		//Enabling SPI Transmission Interrupt
+		pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_TXEIE);
+	}
+}
+
+void SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len)
+{
+
+}
+
+void SPI_IRQHandler(SPI_Handle_t *pSPIHandle)
+{
+	 spi_txe_interrupt_handler(pSPIHandle);
+
+}
+
+static void spi_txe_interrupt_handler(SPI_Handle_t *pSPIHandle)
+{
+	while(pSPIHandle->TxLen_g > 0)
+	{
+		if(pSPIHandle->SPIConfig.SPIDFF == SPI_DFF_16BIT)
+		{
+			pSPIHandle->pSPIx->DR = *(pSPIHandle->pTxBuffer_g);
+			pSPIHandle->pTxBuffer_g++;
+			pSPIHandle->pTxBuffer_g++;
+			pSPIHandle->TxLen_g--;
+			pSPIHandle->TxLen_g--;
+		}else if(pSPIHandle->SPIConfig.SPIDFF == SPI_DFF_8BIT)
+		{
+			pSPIHandle->pSPIx->DR = *(pSPIHandle->pTxBuffer_g);
+			pSPIHandle->pTxBuffer_g++;
+			pSPIHandle->TxLen_g--;
+		}
+	}
+
+	if(!pSPIHandle->TxLen_g)
+	{
+		CloseTransmission(pSPIHandle);
+	}
+}
+
+static void spi_rxe_interrupt_handler(SPI_Handle_t *pSPIHandle)
+{
+
+}
+
+static void spi_ovr_interrupt_handler(SPI_Handle_t *pSPIHandle)
+{
+
+}
+
+void CloseTransmission(SPI_Handle_t *pSPIHandle)
+{
+	//Disabling Interrupt
+	pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
+
+	//Clearing Buffer and Structure Data
+	pSPIHandle->TxLen_g = 0;
+	pSPIHandle->pTxBuffer_g = NULL;
+
+	//Making SPI Ready for next Communication
+	pSPIHandle->SPI_Status_g = SPI_READY;
+}
+
+void CloseReception(SPI_Handle_t *pSPIHandle)
+{
+	//Disabling Interrupt
+	pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_RXNEIE);
+
+	//Clearing Buffer and Structure Data
+	pSPIHandle->RxLen_g = 0;
+	pSPIHandle->pRxBuffer_g = NULL;
+
+	//Making SPI Ready for next Communication
+	pSPIHandle->SPI_Status_g = SPI_READY;
 }

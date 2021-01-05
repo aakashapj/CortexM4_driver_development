@@ -25,6 +25,11 @@ typedef struct
 {
 	SPI_Config_t SPIConfig;
 	SPI_RegDef_t *pSPIx;
+	uint8_t *pTxBuffer_g;
+	uint8_t *pRxBuffer_g;
+	uint32_t TxLen_g;
+	uint32_t RxLen_g;
+	uint8_t SPI_Status_g;
 }SPI_Handle_t;
 
 /****************** Serial Peripheral Interface User Macros ************/
@@ -93,12 +98,27 @@ typedef struct
 #define SPI_SR_BSY					7
 #define SPI_SR_FRE					8
 
+/**************SPI Communication Status Macros*****************/
+#define SPI_READY					0
+#define SPI_BUSY_TX					1
+#define SPI_BUSY_RX					2
+
 /************SPI Driver Function Prototype*******************/
 void SPI_PeriClkControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+
 void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);
+
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
+void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
+
+void SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
+void SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
+void CloseTransmission(SPI_Handle_t *pSPIHandle);
+void CloseReception(SPI_Handle_t *pSPIHandle);
 
 void SPI_SSOEControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 void SPI_PeriControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);

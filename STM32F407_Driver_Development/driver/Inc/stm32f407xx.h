@@ -289,6 +289,8 @@ typedef struct
 #define IRQ_LINE_EXTI3		9
 #define IRQ_LINE_EXTI4		10
 
+#define IRQ_LINE_SPI1		35
+#define IRQ_LINE_SPI2		36
 
 
 /*
