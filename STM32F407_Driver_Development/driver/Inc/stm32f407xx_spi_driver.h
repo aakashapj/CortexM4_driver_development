@@ -113,6 +113,7 @@ void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
 
 void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
 
 void SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t Len);
 void SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
