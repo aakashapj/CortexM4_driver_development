@@ -73,33 +73,33 @@ void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 /*
  * Peripheral Initialization Function
  */
-void GPIO_Init(GPIO_Handle_t pGPIOHandle)
+void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 	//Clock Enable
-	GPIO_PeriClkControl(pGPIOHandle.pGPIOx, ENABLE);
+	GPIO_PeriClkControl(pGPIOHandle->pGPIOx, ENABLE);
 
-	uint8_t pin = pGPIOHandle.PinConfig.pinNumber;
+	uint8_t pin = pGPIOHandle->PinConfig.pinNumber;
 	//1. Mode Selection
-	if(pGPIOHandle.PinConfig.PinMode <= PIN_MODE_ANALOG)
+	if(pGPIOHandle->PinConfig.PinMode <= PIN_MODE_ANALOG)
 	{
-		pGPIOHandle.pGPIOx->MODER &= ~(0x03 << (pin * 2));
-		pGPIOHandle.pGPIOx->MODER |= pGPIOHandle.PinConfig.PinMode << (pin * 2);
-	}else if(pGPIOHandle.PinConfig.PinMode > PIN_MODE_ANALOG)
+		pGPIOHandle->pGPIOx->MODER &= ~(0x03 << (pin * 2));
+		pGPIOHandle->pGPIOx->MODER |= pGPIOHandle->PinConfig.PinMode << (pin * 2);
+	}else if(pGPIOHandle->PinConfig.PinMode > PIN_MODE_ANALOG)
 	{
 	//Configuring Edge Selection of Interrupt
-		if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_RT)
+		if(pGPIOHandle->PinConfig.PinMode == PIN_MODE_RT)
 		{
 			//Clearing Rising Trigger Bit
 			EXTI->RTSR &= ~(1 << pin);
 			//Setting Rising Trigger Bit
 			EXTI->RTSR |= (1 << pin);
-		}else if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_FT)
+		}else if(pGPIOHandle->PinConfig.PinMode == PIN_MODE_FT)
 		{
 			//Clearing Rising Trigger Bit
 			EXTI->FTSR &= ~(1 << pin);
 			//Setting Rising Trigger Bit
 			EXTI->FTSR |= (1 << pin);
-		}else if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_RFT)
+		}else if(pGPIOHandle->PinConfig.PinMode == PIN_MODE_RFT)
 		{
 			//Clearing Rising Trigger Bit
 			EXTI->FTSR &= ~(1 << pin);
@@ -120,7 +120,7 @@ void GPIO_Init(GPIO_Handle_t pGPIOHandle)
 		SYSCFG_PCLK_EN();
 
 		SYSCFG->EXTICR[temp1] &= ~(0x0f << temp2);
-		SYSCFG->EXTICR[temp1] |= (GPIO_TO_PORTCODE(pGPIOHandle.pGPIOx) << temp2);
+		SYSCFG->EXTICR[temp1] |= (GPIO_TO_PORTCODE(pGPIOHandle->pGPIOx) << temp2);
 
 	//Enabling Interrupt
 		EXTI->IMR |= (1 << pin);
@@ -129,22 +129,22 @@ void GPIO_Init(GPIO_Handle_t pGPIOHandle)
 
 
 	//2. Pin Output Selection
-	pGPIOHandle.pGPIOx->OTYPER |= pGPIOHandle.PinConfig.PinOType << pin;
+	pGPIOHandle->pGPIOx->OTYPER |= pGPIOHandle->PinConfig.PinOType << pin;
 
 	//3. Pin Speed Selection
-	pGPIOHandle.pGPIOx->OSPEEDR |= pGPIOHandle.PinConfig.PinOSpeed << (pin * 2);
+	pGPIOHandle->pGPIOx->OSPEEDR |= pGPIOHandle->PinConfig.PinOSpeed << (pin * 2);
 
 	//4. Pull up and Pull down Register Configuration
-	pGPIOHandle.pGPIOx->PUPDR |= pGPIOHandle.PinConfig.PinPuPd << (pin * 2);
+	pGPIOHandle->pGPIOx->PUPDR |= pGPIOHandle->PinConfig.PinPuPd << (pin * 2);
 
 	//5. Alternate Function Mode Configuration
-	if(pGPIOHandle.PinConfig.PinMode == PIN_MODE_ALT)
+	if(pGPIOHandle->PinConfig.PinMode == PIN_MODE_ALT)
 	{
-		uint8_t temp1 = pGPIOHandle.PinConfig.pinNumber/8;
-		uint8_t temp2 = ((pGPIOHandle.PinConfig.pinNumber%8) * 4);
+		uint8_t temp1 = pGPIOHandle->PinConfig.pinNumber/8;
+		uint8_t temp2 = ((pGPIOHandle->PinConfig.pinNumber%8) * 4);
 
-		pGPIOHandle.pGPIOx->AFR[temp1] &= ~(0x0f << temp2);
-		pGPIOHandle.pGPIOx->AFR[temp1] |= (pGPIOHandle.PinConfig.PinALTFn << temp2);
+		pGPIOHandle->pGPIOx->AFR[temp1] &= ~(0x0f << temp2);
+		pGPIOHandle->pGPIOx->AFR[temp1] |= (pGPIOHandle->PinConfig.PinALTFn << temp2);
 	}
 }
 
