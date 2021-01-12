@@ -49,7 +49,7 @@ void GPIO_Button(void)
 	gpioBtn.PinConfig.PinOType = PIN_OTYPE_PP;
 	gpioBtn.PinConfig.PinOSpeed = PIN_OSPEED_HIGH;
 	gpioBtn.PinConfig.PinPuPd = PIN_PUPD_NONE;
-	GPIO_Init(gpioBtn);
+	GPIO_Init(&gpioBtn);
 }
 
 //Pins
@@ -73,19 +73,19 @@ void SPI_GPIOInit(void)
 
 	//NSS Slave Select Pin
 	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_12;
-	GPIO_Init(GPIOHandle);
+	GPIO_Init(&GPIOHandle);
 
 	//SCK Serial Clock
 	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_13;
-	GPIO_Init(GPIOHandle);
+	GPIO_Init(&GPIOHandle);
 
 	//MISO Master In Slave Out
 	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_14;
-	GPIO_Init(GPIOHandle);
+	GPIO_Init(&GPIOHandle);
 
 	//MOSI Master Out Slave In
 	GPIOHandle.PinConfig.pinNumber = GPIO_PIN_NO_15;
-	GPIO_Init(GPIOHandle);
+	GPIO_Init(&GPIOHandle);
 
 }
 

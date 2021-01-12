@@ -106,7 +106,7 @@ typedef struct
 void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
 
 
-void GPIO_Init(GPIO_Handle_t pGPIOHandle);
+void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
 
 
