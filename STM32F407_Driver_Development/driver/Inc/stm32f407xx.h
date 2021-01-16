@@ -78,6 +78,13 @@
 #define SPI3_BASEADDR	(APB1_BASEADDR + 0x3C00)
 #define SPI4_BASEADDR	(APB2_BASEADDR + 0x3400)
 
+/*
+ * Inter Integrated Circuit  Base Address
+ */
+#define I2C1_BASEADDR	(APB1_BASEADDR + 0x5400)
+#define I2C2_BASEADDR	(APB1_BASEADDR + 0x5800)
+#define I2C3_BASEADDR	(APB1_BASEADDR + 0x5C00)
+
 /****************Peripheral Register Definition****************/
 
 /*
@@ -177,6 +184,23 @@ typedef struct
 	__vo uint32_t I2SPR;
 }SPI_RegDef_t;
 
+/*
+ * Inter Integrated Circuit Register Definition
+ */
+typedef struct
+{
+	__vo uint32_t CR1;
+	__vo uint32_t CR2;
+	__vo uint32_t OAR1;
+	__vo uint32_t OAR2;
+	__vo uint32_t DR;
+	__vo uint32_t SR1;
+	__vo uint32_t SR2;
+	__vo uint32_t CCR;
+	__vo uint32_t TRISE;
+	__vo uint32_t FLTR;
+}I2C_RegDef_t;
+
 /*************Base Address Type Casted to Peripheral Register Definition**********/
 
 /*
@@ -214,6 +238,12 @@ typedef struct
 #define SPI2		((SPI_RegDef_t*)SPI2_BASEADDR)
 #define SPI3		((SPI_RegDef_t*)SPI3_BASEADDR)
 
+/*
+ * Inter Integrated Circuit Register Definition type Casted to Base Address
+ */
+#define I2C1		((I2C_RegDef_t*)I2C1_BASEADDR)
+#define I2C2		((I2C_RegDef_t*)I2C2_BASEADDR)
+#define I2C3		((I2C_RegDef_t*)I2C3_BASEADDR)
 
 /************* Peripheral Clock Enable Macros *************/
 /*
@@ -240,6 +270,12 @@ typedef struct
 #define SPI2_PCLK_EN()			(RCC->APB1ENR |= (1 << 14))
 #define SPI3_PCLK_EN()			(RCC->APB1ENR |= (1 << 15))
 
+/*
+ * I2C Clock Enable
+ */
+#define I2C1_PCLK_EN()			(RCC->APB1ENR |= (1 << 21))
+#define I2C2_PCLK_EN()			(RCC->APB1ENR |= (1 << 22))
+#define I2C3_PCLK_EN()			(RCC->APB1ENR |= (1 << 23))
 
 /************* Peripheral Clock Disable Macros*************/
 /*
@@ -266,6 +302,12 @@ typedef struct
 #define SPI2_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 14))
 #define SPI3_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 15))
 
+/*
+ * I2C Clock Enable
+ */
+#define I2C1_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 21))
+#define I2C2_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 22))
+#define I2C3_PCLK_DI()			(RCC->APB1ENR &= ~(1 << 23))
 
 /*********************Peripheral Reset Macros*********************/
 /*
@@ -292,6 +334,11 @@ typedef struct
 #define IRQ_LINE_SPI1		35
 #define IRQ_LINE_SPI2		36
 
+#define IRQ_LINE_I2C1_EV	31
+#define IRQ_LINE_I2C1_ER	32
+
+#define IRQ_LINE_I2C2_EV	33
+#define IRQ_LINE_I2C2_ER	34
 
 /*
  * Some Other Macros
