@@ -111,6 +111,33 @@ void I2C_Init(I2C_Handle_t *pI2CHandle)
 
 	//3. Peripheral Clock Frequency Control Configuration
 	pI2CHandle->pI2C->CR2 |= ((RCC_GetPclkValue()/1000000U) & 0x3f);
+
+	//4. Clock Control Register Configuration
+	uint16_t ccr_value = 0;
+	uint16_t tempreg = 0;
+
+	if(pI2CHandle->I2C_PinConfig.I2C_SCLSpeed <= I2C_SCLSPEED_SM)
+	{
+		ccr_value = (RCC_GetPclkValue()/(2*I2C_SCLSPEED_SM));
+		tempreg |= (ccr_value & 0xfff);
+	}else
+	{
+		tempreg |= (1 << 15);
+		tempreg |= (pI2CHandle->I2C_PinConfig.I2C_FMDutyCycle << 14);
+
+		if(pI2CHandle->I2C_PinConfig.I2C_FMDutyCycle == I2C_FM_DUTY_2)
+		{
+			ccr_value = (RCC_GetPclkValue()/(3 * I2C_SCLSPEED_FM_4K));
+		}else
+		{
+			ccr_value = (RCC_GetPclkValue()/(25 * I2C_SCLSPEED_FM_4K));
+		}
+
+		tempreg |= (ccr_value & 0xfff);
+	}
+
+	pI2CHandle->pI2C->CCR = tempreg;
+
 }
 
 void I2C_DeInit(I2C_Handle_t *pI2CHandle)
