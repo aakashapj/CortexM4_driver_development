@@ -92,8 +92,12 @@ typedef struct
 /* I2C Function Prototype */
 void I2C_Init(I2C_Handle_t *pI2CHandle);
 void I2C_DeInit(I2C_Handle_t *pI2CHandle);
-void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t Len, uint8_t *SlaveAddr, uint8_t Sr);
+void I2C_PeriControl(I2C_RegDef_t *pI2C, uint8_t EnorDi);
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t Len, uint8_t SlaveAddr, uint8_t Sr);
 void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle, uint8_t *pRxBuffer, uint32_t Len, uint8_t *SlaveAddr, uint8_t Sr);
+
+uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2C, uint32_t flagname);
+
 
 
 #endif /* INC_STM32F407XX_I2C_DRIVER_H_ */

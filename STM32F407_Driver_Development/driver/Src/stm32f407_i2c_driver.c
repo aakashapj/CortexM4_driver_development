@@ -13,6 +13,21 @@
 uint16_t AHB[] = {2,4,8,16,64,128,256,512};
 uint8_t APB[] = {2,4,8,16};
 
+static void I2C_StartGeneration(I2C_RegDef_t *pI2C)
+{
+	//Start Bit setting
+	pI2C->CR1 |= (1 << I2C_CR1_START);
+
+	//while until Start Bit set
+	while(! I2C_GetFlagStatus(pI2C, I2C_SR1_SB));
+}
+
+static void I2C_StopGeneration(I2C_RegDef_t *pI2C)
+{
+	//Generating Stop Condition
+	pI2C->CR1 |= (1 << I2C_CR1_STOP);
+}
+
 static void I2C_AckControl(I2C_RegDef_t *pI2C, uint8_t EnorDi)
 {
 	if(EnorDi == ENABLE)
@@ -21,6 +36,37 @@ static void I2C_AckControl(I2C_RegDef_t *pI2C, uint8_t EnorDi)
 	}else
 	{
 		pI2C->CR1 |= (1 << I2C_CR1_ACK);
+	}
+}
+
+static void I2C_ExecuteAddressPhase(I2C_RegDef_t *pI2C, uint8_t SlaveAddr)
+{
+	SlaveAddr = SlaveAddr<<1 ;
+	SlaveAddr &= ~(1);
+
+	//Load Slave Address to the Data Register
+	pI2C->DR = SlaveAddr;
+}
+
+static void I2C_ClearAddrFlag(I2C_RegDef_t *pI2C)
+{
+	uint32_t dummyRead;
+
+	dummyRead = pI2C->SR1;
+	dummyRead = pI2C->SR2;
+
+	(void)dummyRead;
+}
+
+uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2C, uint32_t flagname)
+{
+
+	if((pI2C->SR1) & (1 << flagname))
+	{
+		return SET;
+	}else
+	{
+		return RESET;
 	}
 }
 
@@ -95,6 +141,17 @@ void I2C_PeriClkControl(I2C_RegDef_t *pI2C, uint8_t EnorDi)
 	}
 }
 
+void I2C_PeriControl(I2C_RegDef_t *pI2C, uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		pI2C->CR1 |= (1 << I2C_CR1_PE);
+	}else
+	{
+		pI2C->CR1 &= ~(1 << I2C_CR1_PE);
+	}
+}
+
 void I2C_Init(I2C_Handle_t *pI2CHandle)
 {
 	//1. I2C Clock Peripheral Clock Enabling
@@ -138,15 +195,53 @@ void I2C_Init(I2C_Handle_t *pI2CHandle)
 
 	pI2CHandle->pI2C->CCR = tempreg;
 
+	//5. Device Address Configuration
+	tempreg = 0;
+	tempreg |= (1 << 14);
+	tempreg |= ((pI2CHandle->I2C_PinConfig.I2C_DeviceAddress << 1) & 0xFE);
+
+	pI2CHandle->pI2C->OAR1 |= tempreg;
+
 }
 
 void I2C_DeInit(I2C_Handle_t *pI2CHandle)
 {
-
+	//Start Generation
 }
 
-void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t Len, uint8_t *SlaveAddr, uint8_t Sr)
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *pTxBuffer, uint32_t Len, uint8_t SlaveAddr, uint8_t Sr)
 {
+
+	//Start Generation
+	I2C_StartGeneration(pI2CHandle->pI2C);
+
+	//Address Phase Execution
+	I2C_ExecuteAddressPhase(pI2CHandle->pI2C, SlaveAddr);
+
+	//wait Until Address Flag is set
+	while(! I2C_GetFlagStatus(pI2CHandle->pI2C, I2C_SR1_ADDR));
+
+	I2C_ClearAddrFlag(pI2CHandle->pI2C);
+
+	//Start Data Sending
+
+	while(Len > 0)
+	{
+		while(! I2C_GetFlagStatus(pI2CHandle->pI2C, I2C_SR1_TxE));
+		pI2CHandle->pI2C->DR = *pTxBuffer;
+		pTxBuffer++;
+		Len--;
+	}
+
+	//Generate Stop Condition
+
+	//wait until TxE Flag is set
+	while(! I2C_GetFlagStatus(pI2CHandle->pI2C, I2C_SR1_TxE));
+
+	//wait until BTF Flag is set
+	while(! I2C_GetFlagStatus(pI2CHandle->pI2C, I2C_SR1_BTF));
+
+	I2C_StopGeneration(pI2CHandle->pI2C);
 
 }
 
